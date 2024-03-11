@@ -482,12 +482,7 @@
     <section id="Part4">
       <h2>Part 4: Global Illumination</h2>
       <h3>Implementation</h3>
-      <p>
-        The function takes an iterator pointing to a halfedge as input. This
-        halfedge represents the edge that will be flipped.
-      </p>
-      <h3>Steps</h3>
-      <ol>
+      <ul>
         <li>
           Check for Boundary Edge: first checks if the input edge is a boundary
           edge. If it is, flipping is not possible, so the function simply
@@ -527,146 +522,114 @@
           the four vertices involved in the flip to point to their new
           corresponding halfedges after the flip.
         </li>
-        <li>
-          Update Face Halfedge Pointers: updates the "halfedge" pointers of the
-          two faces involved in the flip to point to their new starting
-          halfedges after the flip.
-        </li>
-        <li>
-          Return Flipped Edge: The function returns the iterator pointing to the
-          original edge, which now represents the flipped edge.
-        </li>
-      </ol>
-      <h3>Debugging</h3>
-      <p>
-        We used the diagram to help us understand the connections between the 4
-        halfedges and 4 vertices involved in the flip. We also used the diagram
-        to help us understand the connections between the 2 faces involved in
-        the flip.
-      </p>
-      <div style="display: flex; justify-content: center; margin-top: 15px">
-        <img src="S2P4-Diagram.jpg" style="width: 100%" />
-      </div>
-      <h3>Result</h3>
+      </ul>
+
+      <h3>Screenshots for global (direct and indirect) illumination</h3>
       <div style="display: flex; justify-content: center; margin-top: 15px">
         <div style="flex-direction: column">
           <figure>
-            <img src="task3_spheres_H.png" style="width: 100%" />
+            <img src="task3_coil_H.png" style="width: 100%" />
             <figcaption>
-              CBspheres_lambertian.dae using estimate_direct_lighting_hemisphere
+              CBcoil.dae using estimate_direct_lighting_hemisphere
             </figcaption>
           </figure>
           <figure>
-            <img src="task3_spheres_I.png" style="width: 100%" />
+            <img src="task3_coil_I.png" style="width: 100%" />
             <figcaption>
-              CBspheres_lambertian.dae using estimate_direct_lighting_importance
+              CBcoil.dae using estimate_direct_lighting_importance
             </figcaption>
           </figure>
         </div>
         <div style="flex-direction: column">
           <figure>
-            <img src="task3_dragon_H.png" style="width: 100%" />
+            <img src="task3_CBgems_H.png" style="width: 100%" />
             <figcaption>
-              dragon.dae using estimate_direct_lighting_hemisphere
+              CBgems.dae using estimate_direct_lighting_hemisphere
             </figcaption>
           </figure>
           <figure>
-            <img src="task3_dragon_I.png" style="width: 100%" />
+            <img src="task3_CBgems_I.png" style="width: 100%" />
             <figcaption>
-              dragon.dae using estimate_direct_lighting_importance
+              CBgems.dae using estimate_direct_lighting_importance
             </figcaption>
           </figure>
         </div>
       </div>
 
       <h3>
-        Comparison between uniform hemisphere sampling and lighting sampling
+        Comparison between rendered views using only direct illumination or
+        indirect illumination
       </h3>
-      <p></p>
-      noise levels in soft shadows
+      <div style="display: flex; justify-content: center; margin-top: 15px">
+        <div style="flex-direction: column">
+          <figure>
+            <img src="task3_coil_H.png" style="width: 100%" />
+            <figcaption>
+              CBcoil.dae using estimate_direct_lighting_hemisphere
+            </figcaption>
+          </figure>
+          <figure>
+            <img src="task3_coil_I.png" style="width: 100%" />
+            <figcaption>
+              CBcoil.dae using estimate_direct_lighting_importance
+            </figcaption>
+          </figure>
+        </div>
+        <div style="flex-direction: column">
+          <figure>
+            <img src="task3_CBgems_H.png" style="width: 100%" />
+            <figcaption>
+              CBgems.dae using estimate_direct_lighting_hemisphere
+            </figcaption>
+          </figure>
+          <figure>
+            <img src="task3_CBgems_I.png" style="width: 100%" />
+            <figcaption>
+              CBgems.dae using estimate_direct_lighting_importance
+            </figcaption>
+          </figure>
+        </div>
+      </div>
+
       <h3>
-        Comparison between uniform hemisphere sampling and lighting sampling
+        ScreenShots and Analysis for mth bounce of light for CBbunny.dae with
+        isAccumBounces=false
       </h3>
-      <p></p>
+      <p>pictures HERE</p>
+      <p>
+        The 2nd bounce represents light that bounces once off surfaces before
+        reaching the camera, and the 3rd bounce extends this process further. We
+        can see that as m gets highter, the rendered lights gets dimmer and and
+        smoother. This is because there are loss in light reflection using the
+        process according to the contiunous probability we we add in every
+        recursive call in
+        <span style="background-color: rgb(220, 220, 217)"
+          >at_least_one_bounce_radiance</span
+        >
+      </p>
+
+      <h3>ScreenShots for Russian Roulette rendering for CBbunny.dae</h3>
+      <p>pictures HERE</p>
+      <p>
+        Higher max_ray_depth values result in more complex indirect lighting
+        effects, such as color bleeding, reflections, and global illumination.
+        These effects enhance the realism and visual richness of the rendered
+        image compared to rasterization, where indirect lighting is challenging
+        to achieve accurately.
+      </p>
+
+      <h3>Comparison of rendered views with various sample-per-pixel rates</h3>
+      <p>pictures HERE</p>
     </section>
 
-    <section id="Part4">
-      <h2>Task 5: Edge Split (15 pts)</h2>
-      <h2>Steps</h2>
-      <p>
-        Please refer to the diagram below for the notations of the vertices,
-        halfedges and faces as we have created new ones.
-      </p>
-      <p>
-        For your reference, vertices starting with "M" means "from the
-        Midpoint", "U" means "from the Upper face", "D" means "from the Down
-        face", "L" means "from the Left face", "R" means "from the Right face".
-      </p>
-      <div style="display: flex; justify-content: center; margin-top: 15px">
-        <img src="S2P5-Diagram.jpg" style="width: 100%" />
-      </div>
-      <ol>
-        <li>
-          Create New Mesh Elements: The function first creates several new
-          elements to be inserted into the mesh during the split:
-          <ul>
-            <li>
-              A new vertex ("MID") to represent the midpoint of the split edge.
-            </li>
-            <li>
-              Three new edges ("MD", "MB", "MA") to form the new edges after the
-              split.
-            </li>
-            <li>
-              Six new halfedges ("UR3", "DR3", "DR0", "DL0", "DL3", "UL3") to
-              connect the new vertex and edges.
-            </li>
-            <li>
-              Two new faces ("UP", "DOWN") to fill the gaps created by the
-              split.
-            </li>
-          </ul>
-        </li>
-        <li>
-          Get Iterators for Existing Elements: The function obtains iterators
-          for existing halfedges, faces, and vertices surrounding the edge to be
-          split. These iterators are used to update connections after the split.
-        </li>
-        <li>
-          Position the New Vertex The position of the new vertex ("MID") is set
-          to the average of the positions of the two original vertices connected
-          by the edge.
-        </li>
-        <li>
-          Set Initial Halfedge Pointers: The "halfedge" pointer of the new
-          vertex ("MID") is set to point to one of the original halfedges
-          ("L0_OLD"). The "halfedge" pointer of the original vertex's vertex is
-          updated to point to a new halfedge on the opposite face ("R1_OLD").
-        </li>
-        <li>
-          Set Face Halfedge Pointers: The "halfedge" pointers of the new and
-          existing faces are updated to point to appropriate halfedges, ensuring
-          correct face-vertex relationships.
-        </li>
-        <li>
-          Set Edge Halfedge Pointers: The "halfedge" pointers of the new edges
-          are set to point to their corresponding halfedges.
-        </li>
-        <li>
-          Update Existing Halfedge Neighbors: The neighbor pointers of the
-          existing halfedges are modified to accommodate the new vertex and
-          edges, maintaining mesh connectivity.
-        </li>
-        <li>
-          Set New Halfedge Neighbors: The neighbor pointers of the new halfedges
-          are set to correctly connect them to the existing mesh elements,
-          forming the new edges and faces.
-        </li>
-        <li>
-          Return the New Vertex: The function returns an iterator pointing to
-          the newly inserted vertex ("MID").
-        </li>
-      </ol>
+    <section id="Part5">
+      <h2>Task 5: Adaptive Sampling</h2>
+      <h3>Explanation of the Adaptive Sampling</h3>
+
+      <p>Words here.</p>
+      <h3>Implementation of the Adaptive Sampling</h3>
+      <p>Words here.</p>
+
       <h3>Result</h3>
       <div style="display: flex; justify-content: center; margin-top: 15px">
         <div style="flex-direction: column">
