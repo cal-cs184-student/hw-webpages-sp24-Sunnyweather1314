@@ -335,35 +335,50 @@
       </h3>
       <ul>
         <li>
-          <b>Sampling Loop for Direct Lighting</b>: We start a num_samples times
-          loop to sample the hemisphere around the hit point, considering the
-          lights in the scene.
+          Calculate the hit point <code>hit_p</code> by extending the ray to the
+          intersection distance <code>isect.t</code>. Determine the direction of
+          the ray coming from the hit point (<code>w_out</code>) by transforming
+          the negative ray direction from world to object space.
         </li>
+
         <li>
-          <b>Sample Light</b>: Within the loop, we get the sampled light by
-          calling
-          <span style="background-color: rgb(220, 220, 217)"
-            >isect.bsdf->sample_f</span
-          >. This function returns the sampled reflected direction wj and the
-          corresponding probability density function (pdf). Then, we multiply
-          the direction vector by
-          <span style="background-color: rgb(220, 220, 217)">o2w</span> to get
-          the transformed vector and normalize it. Then, we construct the
-          sampleray using hit_p as origin and the normalized vector as direction
-          with its min_t set to EPS_F and max_t set to INF_D.
+          Initialize variables for the loop over lights, determining the number
+          of samples based on whether the light is a delta light. For delta
+          lights, take only one sample; otherwise, use the variable
+          <code>ns_area_light</code>.
         </li>
+
         <li>
-          <b>Check for Intersection</b>: If sampleray intersects with the scene,
-          we calculate the contribution for L_out by this sampleray using the
-          function
-          <span style="background-color: rgb(220, 220, 217)"
-            >lightIsect.bsdf->get_emission() * f * abs_cos_theta(wj) / pdf</span
-          >
-          and add it to L_out.
+          Inside the loop over light sources, sample the light using the
+          <code>sample_L</code> function to obtain the direction
+          <code>wj</code> towards the light, the distance to the light
+          <code>distToLight</code>, and the probability density function
+          <code>pdf</code>. Transform <code>wj</code> to object space and
+          normalize it.
         </li>
+
         <li>
-          <b>Normalizing Output</b>: Finally, we return the light estimator
-          equals to L_out / num_samples.
+          Create a shadow ray from the hit point to the sampled light direction,
+          setting its minimum and maximum t-values to avoid self-intersection.
+          Perform a shadow ray intersection test with the BVH, checking for
+          obstructions between the hit point and the light source. Skip the
+          sample if an intersection occurs within the valid range.
+        </li>
+
+        <li>
+          Calculate the contribution of this light sample to the overall
+          lighting at the hit point. This involves evaluating the emission from
+          the light, the bidirectional scattering distribution function (BSDF)
+          using the <code>f</code> function, the cosine term, and dividing by
+          the probability density function. Accumulate these contributions for
+          all samples and lights.
+        </li>
+
+        <li>
+          The result <code>L_out</code> represents the estimated direct lighting
+          at the intersection point, considering importance sampling from light
+          sources. Return this result, taking into account the number of samples
+          used for each light source.
         </li>
       </ul>
 
