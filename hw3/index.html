@@ -121,12 +121,7 @@
 
     <section id="overview">
       <h2>Homework Description</h2>
-      <p>
-        In this assignment, you will explore topics on geometric modeling
-        covered in lecture. You will build Bezier curves and surfaces using de
-        Casteljau algorithm, manipulate triangle meshes represented by half-edge
-        data structure, and implement loop subdivision.
-      </p>
+      <p></p>
     </section>
 
     <section id="Part1">
@@ -279,13 +274,14 @@
       </div>
       <h3>Render Time Comparison Analysis</h3>
       <p>
-        Before implementing BVH acceleration, the rendering time for cow was
-        close to a minute. After implementing BVH, the rendering time for cow is
-        around 1 second. And all the other large .dae files(the ones above) all
-        takes at most 2 seconds to complete. The speed-up is much faster, we
-        think this is because once a ray does not intersect with a node's bbox,
-        we do not test for intersection between the ray and the primitives
-        contained by the node, which saves us a lot of computation.
+        Before implementing BVH acceleration, the rendering time for cow and the
+        other .dae file shown in the screenshots below were close to a minute.
+        After implementing BVH, the rendering time for cow is around 1 second.
+        And all the other large .dae files(the ones above) all takes less than
+        1.5 seconds to complete. The speed-up is much faster, we think this is
+        because once a ray does not intersect with a node's bbox, we do not test
+        for intersection between the ray and the primitives contained by the
+        node, which saves us a lot of computation.
       </p>
     </section>
 
@@ -484,17 +480,6 @@
       <h3>Implementation</h3>
       <ul>
         <li>
-          Check for Boundary Edge: first checks if the input edge is a boundary
-          edge. If it is, flipping is not possible, so the function simply
-          returns the original edge iterator.
-        </li>
-        <li>
-          Get Halfedge: obtains iterators for several halfedges surrounding the
-          edge to be flipped, namely 3 halfedges for Left and 3 halfedges for
-          Right. These iterators are used to update connections between
-          halfedges after the flip.
-        </li>
-        <li>
           Get Vertex: obtains iterators for the four vertices in the diagram
           connected to the halfedges. These iterators are used to update the
           vertices' halfedge pointers after the flip.
@@ -527,32 +512,7 @@
       <h3>Screenshots for global (direct and indirect) illumination</h3>
       <div style="display: flex; justify-content: center; margin-top: 15px">
         <div style="flex-direction: column">
-          <figure>
-            <img src="task3_coil_H.png" style="width: 100%" />
-            <figcaption>
-              CBcoil.dae using estimate_direct_lighting_hemisphere
-            </figcaption>
-          </figure>
-          <figure>
-            <img src="task3_coil_I.png" style="width: 100%" />
-            <figcaption>
-              CBcoil.dae using estimate_direct_lighting_importance
-            </figcaption>
-          </figure>
-        </div>
-        <div style="flex-direction: column">
-          <figure>
-            <img src="task3_CBgems_H.png" style="width: 100%" />
-            <figcaption>
-              CBgems.dae using estimate_direct_lighting_hemisphere
-            </figcaption>
-          </figure>
-          <figure>
-            <img src="task3_CBgems_I.png" style="width: 100%" />
-            <figcaption>
-              CBgems.dae using estimate_direct_lighting_importance
-            </figcaption>
-          </figure>
+          <img src="task4_global_illumination.png" style="width: 100%" />
         </div>
       </div>
 
@@ -563,30 +523,12 @@
       <div style="display: flex; justify-content: center; margin-top: 15px">
         <div style="flex-direction: column">
           <figure>
-            <img src="task3_coil_H.png" style="width: 100%" />
-            <figcaption>
-              CBcoil.dae using estimate_direct_lighting_hemisphere
-            </figcaption>
+            <img src="task4_direct_illumination.png" style="width: 100%" />
+            <figcaption>using only direct illumination</figcaption>
           </figure>
           <figure>
-            <img src="task3_coil_I.png" style="width: 100%" />
-            <figcaption>
-              CBcoil.dae using estimate_direct_lighting_importance
-            </figcaption>
-          </figure>
-        </div>
-        <div style="flex-direction: column">
-          <figure>
-            <img src="task3_CBgems_H.png" style="width: 100%" />
-            <figcaption>
-              CBgems.dae using estimate_direct_lighting_hemisphere
-            </figcaption>
-          </figure>
-          <figure>
-            <img src="task3_CBgems_I.png" style="width: 100%" />
-            <figcaption>
-              CBgems.dae using estimate_direct_lighting_importance
-            </figcaption>
+            <img src="task4_indirect_illumination.png" style="width: 100%" />
+            <figcaption>using only indirect illumination</figcaption>
           </figure>
         </div>
       </div>
@@ -595,7 +537,38 @@
         ScreenShots and Analysis for mth bounce of light for CBbunny.dae with
         isAccumBounces=false
       </h3>
-      <p>pictures HERE</p>
+      <div style="display: flex; justify-content: center; margin-top: 15px">
+        <div style="flex-direction: column">
+          <figure>
+            <img src="task4_bounce_0.png" style="width: 100%" />
+            <figcaption>m = 0</figcaption>
+          </figure>
+          <figure>
+            <img src="task4_bounce_1.png" style="width: 100%" />
+            <figcaption>m = 1</figcaption>
+          </figure>
+        </div>
+        <div style="flex-direction: column">
+          <figure>
+            <img src="task4_bounce_2.png" style="width: 100%" />
+            <figcaption>m = 2</figcaption>
+          </figure>
+          <figure>
+            <img src="task4_bounce_3.png" style="width: 100%" />
+            <figcaption>m = 3</figcaption>
+          </figure>
+        </div>
+        <div style="flex-direction: column">
+          <figure>
+            <img src="task4_bounce_4.png" style="width: 100%" />
+            <figcaption>m = 4</figcaption>
+          </figure>
+          <figure>
+            <img src="task4_bounce_5.png" style="width: 100%" />
+            <figcaption>m = 5</figcaption>
+          </figure>
+        </div>
+      </div>
       <p>
         The 2nd bounce represents light that bounces once off surfaces before
         reaching the camera, and the 3rd bounce extends this process further. We
@@ -608,8 +581,42 @@
         >
       </p>
 
-      <h3>ScreenShots for Russian Roulette rendering for CBbunny.dae</h3>
-      <p>pictures HERE</p>
+      <h3>
+        ScreenShots and Analysis for mth bounce of light for CBbunny.dae with
+        isAccumBounces = true
+      </h3>
+      <div style="display: flex; justify-content: center; margin-top: 15px">
+        <div style="flex-direction: column">
+          <figure>
+            <img src="task4_max_depth_0.png" style="width: 100%" />
+            <figcaption>m = 0</figcaption>
+          </figure>
+          <figure>
+            <img src="task4_max_depth_1.png" style="width: 100%" />
+            <figcaption>m = 1</figcaption>
+          </figure>
+        </div>
+        <div style="flex-direction: column">
+          <figure>
+            <img src="task4_max_depth_2.png" style="width: 100%" />
+            <figcaption>m = 2</figcaption>
+          </figure>
+          <figure>
+            <img src="task4_max_depth_3.png" style="width: 100%" />
+            <figcaption>m = 3</figcaption>
+          </figure>
+        </div>
+        <div style="flex-direction: column">
+          <figure>
+            <img src="task4_max_depth_4.png" style="width: 100%" />
+            <figcaption>m = 4</figcaption>
+          </figure>
+          <figure>
+            <img src="task4_max_depth_5.png" style="width: 100%" />
+            <figcaption>m = 5</figcaption>
+          </figure>
+        </div>
+      </div>
       <p>
         Higher max_ray_depth values result in more complex indirect lighting
         effects, such as color bleeding, reflections, and global illumination.
@@ -618,28 +625,135 @@
         to achieve accurately.
       </p>
 
+      <h3>ScreenShots for Russian Roulette rendering for CBbunny.dae</h3>
+
+      <div style="display: flex; justify-content: center; margin-top: 15px">
+        <div style="flex-direction: column">
+          <figure>
+            <img src="task4_russian_roulette_0.png" style="width: 100%" />
+            <figcaption>m = 0</figcaption>
+          </figure>
+          <figure>
+            <img src="task4_russian_roulette_1.png" style="width: 100%" />
+            <figcaption>m = 1</figcaption>
+          </figure>
+        </div>
+        <div style="flex-direction: column">
+          <figure>
+            <img src="task4_russian_roulette_2.png" style="width: 100%" />
+            <figcaption>m = 2</figcaption>
+          </figure>
+          <figure>
+            <img src="task4_russian_roulette_3.png" style="width: 100%" />
+            <figcaption>m = 3</figcaption>
+          </figure>
+        </div>
+        <div style="flex-direction: column">
+          <figure>
+            <img src="task4_russian_roulette_4.png" style="width: 100%" />
+            <figcaption>m = 4</figcaption>
+          </figure>
+          <figure>
+            <img src="task4_russian_roulette_100.png" style="width: 100%" />
+            <figcaption>m = 100</figcaption>
+          </figure>
+        </div>
+      </div>
+
       <h3>Comparison of rendered views with various sample-per-pixel rates</h3>
-      <p>pictures HERE</p>
+
+      <div style="display: flex; justify-content: center; margin-top: 15px">
+        <div style="flex-direction: column">
+          <figure>
+            <img src="task4_spp_1.png" style="width: 100%" />
+            <figcaption>s = 1</figcaption>
+          </figure>
+          <figure>
+            <img src="task4_spp_2.png" style="width: 100%" />
+            <figcaption>s = 2</figcaption>
+          </figure>
+        </div>
+        <div style="flex-direction: column">
+          <figure>
+            <img src="task4_spp_4.png" style="width: 100%" />
+            <figcaption>s = 4</figcaption>
+          </figure>
+          <figure>
+            <img src="task4_spp_8.png" style="width: 100%" />
+            <figcaption>s = 8</figcaption>
+          </figure>
+        </div>
+        <div style="flex-direction: column">
+          <figure>
+            <img src="task4_spp_16.png" style="width: 100%" />
+            <figcaption>s = 16</figcaption>
+          </figure>
+          <figure>
+            <img src="task4_spp_64.png" style="width: 100%" />
+            <figcaption>s = 64</figcaption>
+          </figure>
+        </div>
+        <div style="flex-direction: column">
+          <figure>
+            <img src="task4_spp_1024.png" style="width: 100%" />
+            <figcaption>s = 1024</figcaption>
+          </figure>
+        </div>
+      </div>
     </section>
 
     <section id="Part5">
       <h2>Task 5: Adaptive Sampling</h2>
       <h3>Explanation of the Adaptive Sampling</h3>
 
-      <p>Words here.</p>
+      <p>
+        Adaptive sampling dynamically adjusts the number of samples taken during
+        rendering based on the variance in pixel color. In the provided code,
+        after processing a batch of samples, the algorithm computes the mean and
+        variance of radiance values and calculates a confidence interval width.
+        If the interval width is below a specified tolerance relative to the
+        mean, the sampling loop breaks early, optimizing computational resources
+        by allocating more samples to pixels with higher uncertainty and fewer
+        samples to those with lower uncertainty.
+      </p>
       <h3>Implementation of the Adaptive Sampling</h3>
-      <p>Words here.</p>
+      <p>
+        Additional to our implementation from part1, we added the variables
+        <span style="background-color: rgb(220, 220, 217)">s1</span> (sum of
+        xk)and
+        <span style="background-color: rgb(220, 220, 217)">variance</span> (sum
+        of xk{2}) Reuse the for loop that we had before, in each loop, we set xk
+        as the return value from
+        <span style="background-color: rgb(220, 220, 217)"
+          >est_radiance_global_illumination.illum()</span
+        >, update s1 and s2. We also added a if statement checking if the number
+        of samples that we have sampled is a multiple of
+        <span style="background-color: rgb(220, 220, 217)">samplesPerBatch</span
+        >, we check if 1.96 &middot; &radic;<span
+          style="text-decoration: overline"
+          >n</span
+        >
+        / &sigma; &lt; maxTolerance &middot; mean. If false, the sample has not
+        converged and we will keep looping; if yes, the sample has converged and
+        we will break the loop. Finally, we update
+        <span style="background-color: rgb(220, 220, 217)"
+          >sampleCountBuffer</span
+        >
+        at the corresponding index to be num_samples.
+      </p>
 
       <h3>Result</h3>
       <div style="display: flex; justify-content: center; margin-top: 15px">
-        <div style="flex-direction: column">
-          <img src="S2P5-0.png" style="width: 100%" />
-          <img src="S2P5-1.png" style="width: 100%" />
+        <div style="flex-direction: row">
+          <img src="task5_blob_rate.png" style="width: 100%" />
+          <img src="task5_blob.png" style="width: 100%" />
         </div>
-        <div style="flex-direction: column">
-          <img src="S2P5-2.png" style="width: 100%" />
-          <img src="S2P5-3.png" style="width: 100%" />
+        <p>blob.dae -s 2048 -l 1 -m 5</p>
+        <div style="flex-direction: row">
+          <img src="task5_dragon_rate.png" style="width: 100%" />
+          <img src="task5_dragon.png" style="width: 100%" />
         </div>
+        <p>CBdragon.dae -s 2048 -l 1 -m 5</p>
       </div>
     </section>
   </body>
