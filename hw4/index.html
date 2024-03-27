@@ -1,7 +1,473 @@
 <html>
-	<head>
-	</head>
-	<body>
-		Homework 4 index.html here
-	</body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script
+      id="MathJax-script"
+      async
+      src="https://polyfill.io/v3/|latest?features=es6"
+    ></script>
+    <title>Homework 4 Report</title>
+    <script
+      type="text/javascript"
+      async
+      src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML"
+    ></script>
+    <style>
+      body {
+        font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande",
+          "Lucida Sans";
+        line-height: 1.6;
+        margin-top: 5%;
+        margin-left: 15%;
+        margin-right: 15%;
+        margin-bottom: 10%;
+      }
+
+      h1,
+      h2,
+      h3,
+      h4,
+      h5,
+      h6 {
+        color: #333;
+      }
+
+      section {
+        margin-bottom: 20px;
+      }
+
+      h2 {
+        border-bottom: 2px solid #333;
+        padding-bottom: 5px;
+      }
+
+      h3 {
+        margin-bottom: 2px;
+      }
+      ul {
+        list-style-type: none;
+        padding: 0;
+      }
+
+      li {
+        margin-bottom: 10px;
+      }
+      a:link {
+        color: purple;
+        background-color: transparent;
+        text-decoration: none;
+      }
+
+      a:visited {
+        color: purple;
+        background-color: transparent;
+        text-decoration: none;
+      }
+
+      a:hover {
+        color: #0abab5;
+        background-color: transparent;
+        text-decoration: underline;
+      }
+
+      a:active {
+        color: #10098f;
+        background-color: transparent;
+        text-decoration: underline;
+      }
+      *::first-letter {
+        text-transform: uppercase;
+      }
+      ul {
+        list-style-type: disc; /* Default is disc */
+      }
+      table {
+        font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande",
+          "Lucida Sans";
+        border-collapse: collapse;
+        width: 100%;
+        margin-top: 15px;
+      }
+
+      th,
+      td {
+        border: 1px solid #dddddd;
+        text-align: left;
+        padding: 8px;
+      }
+
+      th {
+        background-color: #f2f2f2;
+      }
+
+      tr td:nth-child(1) {
+        background-color: #f2f2f2;
+        font-weight: bold;
+      }
+    </style>
+  </head>
+
+  <body>
+    <header>
+      <h1>Report for Homework 4: Clothsim</h1>
+      <p>Date: Mar 26, 2024</p>
+      <p>
+        Group Member:
+        <a href="https://github.com/whydarren-6uom">Darren Wang</a>,
+        <a href="https://github.com/Sunnyweather1314">Jiayi Xu</a>
+      </p>
+    </header>
+
+    <section id="overview">
+      <h2>Homework Description</h2>
+      <p>
+        In this project, we developed a pathtracer with advanced features. In
+        Part 1, we focused on ray generation and scene intersection using
+        techniques like perspective projection and the Moller Trumbore algorithm
+        for triangle intersection. Part 2 introduced a Bounding Volume Hierarchy
+        (BVH) to accelerate ray tracing, reducing rendering times for complex
+        scenes. We covered steps such as computing bounding boxes, choosing
+        splitting axes, and recursively constructing the BVH. In Part 3, we
+        enhanced the pathtracer with direct illumination, comparing uniform
+        hemisphere sampling with importance sampling. The latter provided
+        smoother results in light-surface interactions. Part 4 explored global
+        illumination, addressing indirect lighting, maximum ray depth, Russian
+        Roulette rendering, and sample-per-pixel rates. Screenshots illustrated
+        the impact of settings on visual richness. Part 5 delved into adaptive
+        sampling, dynamically adjusting samples based on pixel color variance.
+        Confidence intervals and early termination for low-variance pixels
+        ensured computational efficiency without compromising quality. Our
+        project showcased a comprehensive pathtracer with optimizations,
+        demonstrating our grasp of computer graphics principles and effective
+        application in a complex rendering environment.
+      </p>
+    </section>
+
+    <section id="Part1">
+      <h2>Part 1: Masses and springs</h2>
+      <h3>screenshots of scene/pinned2.json</h3>
+      <div style="display: flex; justify-content: center; align-items: center">
+        <div
+          style="
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+          "
+        >
+          <img src="Part I-angle-1.png" style="width: 100%" />
+          <img src="Part I-angle-2.png" style="width: 100%" />
+          <img src="Part I-angle-3.png" style="width: 100%" />
+          <img src="Part I-angle-4.png" style="width: 100%" />
+        </div>
+      </div>
+
+      <h3>screenshots of wireframe</h3>
+      <div style="display: flex; justify-content: center; align-items: center">
+        <div
+          style="
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+          "
+        >
+          <figure>
+            <img src="Part I-no-shearing.png" style="width: 100%" />
+            <figcaption>wireframe with no shearing</figcaption>
+          </figure>
+          <figure>
+            <img src="Part I-only-shearing.png" style="width: 100%" />
+            <figcaption>wireframe with only shearing</figcaption>
+          </figure>
+          <figure>
+            <img src="Part I-all.png" style="width: 100%" />
+            <figcaption>wireframe with all constraints</figcaption>
+          </figure>
+        </div>
+      </div>
+    </section>
+
+    <section id="Part2">
+      <h2>Part 2: Simulation via numerical integration</h2>
+
+      <h3>screenshots of large images with normal shading</h3>
+      <div style="display: flex; justify-content: center; margin-top: 15px">
+        <div style="flex-direction: column">
+          <figure>
+            <img src="Part-II-low-ks-mid.png" style="width: 100%" />
+            <figcaption>low-ks-mid</figcaption>
+          </figure>
+          <figure>
+            <img src="Part-II-low-ks-done.png" style="width: 100%" />
+            <figcaption>low-ks-done</figcaption>
+          </figure>
+        </div>
+
+        <div style="flex-direction: column">
+          <figure>
+            <img src="Part-II-high-ks-mid.png" style="width: 100%" />
+            <figcaption>high-ks-mid</figcaption>
+          </figure>
+          <figure>
+            <img src="Part-II-high-ks-done.png" style="width: 100%" />
+            <figcaption>high-ks-done</figcaption>
+          </figure>
+        </div>
+      </div>
+
+      <p>
+        With a very low spring constant(ks), the cloth behaves sluggishly. It
+        stretches easily and doesn't snap back quickly. This results in a very
+        loose and wobbly cloth that doesn't hold its shape well. Conversely,
+        with a high spring constant, the cloth becomes stiff. It resists
+        deformation strongly, leading to less movement and more rigidity in the
+        cloth structure.
+      </p>
+      <div style="display: flex; justify-content: center; margin-top: 15px">
+        <div style="flex-direction: column">
+          <figure>
+            <img src="Part-II-low-damp-mid-1.png" style="width: 100%" />
+            <figcaption>low-damp-mid-1</figcaption>
+          </figure>
+          <figure>
+            <img src="Part-II-low-damp-mid-2.png" style="width: 100%" />
+            <figcaption>low-damp-mid-2</figcaption>
+          </figure>
+          <figure>
+            <img src="Part-II-low-damp-done.png" style="width: 100%" />
+            <figcaption>low-damp-done</figcaption>
+          </figure>
+        </div>
+        <div style="flex-direction: column">
+          <figure>
+            <img src="Part-II-high-damp-mid.png" style="width: 100%" />
+            <figcaption>high-damp-mid</figcaption>
+          </figure>
+          <figure>
+            <img src="Part-II-high-damp-done.png" style="width: 100%" />
+            <figcaption>high-damp-done</figcaption>
+          </figure>
+        </div>
+      </div>
+
+      <p>
+        With low damping, the cloth oscillates more freely and takes longer to
+        come to rest after being disturbed. It may exhibit exaggerated movements
+        and fluttering. High damping damps out oscillations more quickly,
+        resulting in a smoother and more controlled movement of the cloth. It
+        settles down faster after being disturbed.
+      </p>
+      <div style="display: flex; justify-content: center; margin-top: 15px">
+        <div style="flex-direction: column">
+          <figure>
+            <img src="Part-II-low-dense-mid.png" style="width: 100%" />
+            <figcaption>low-dense-mid</figcaption>
+          </figure>
+          <figure>
+            <img src="Part-II-low-dense-done.png" style="width: 100%" />
+            <figcaption>low-dense-done</figcaption>
+          </figure>
+        </div>
+        <div style="flex-direction: column">
+          <figure>
+            <img src="Part-II-high-dense-mid.png" style="width: 100%" />
+            <figcaption>high-dense-mid</figcaption>
+          </figure>
+          <figure>
+            <img src="Part-II-high-dense-done.png" style="width: 100%" />
+            <figcaption>high-dense-done</figcaption>
+          </figure>
+        </div>
+      </div>
+      <p>
+        A low density cloth feels lighter and thus looks smoother and has less
+        wrinkles at the point of gravity. On the other hand, a high-density
+        cloth feels heavier and is less affected by external forces. It has
+        larger gravity which creates more folds in the middle.
+      </p>
+      <h3>screenshot of shaded cloth from scene/pinned4.json</h3>
+      <div style="display: flex; justify-content: center; margin-top: 15px">
+        <div style="flex-direction: column">
+          <img src="Part-II-pinned-4.png" style="width: 100%" />
+        </div>
+      </div>
+    </section>
+
+    <section id="Part3">
+      <h2>Part 3: Handling collisions with other objects</h2>
+      <h3>Comparison between different ks</h3>
+      <div style="display: flex; justify-content: center; margin-top: 15px">
+        <div style="flex-direction: column">
+          <figure>
+            <img src="Part III-ks500.png" style="width: 100%" />
+            <figcaption>ks = 500</figcaption>
+          </figure>
+          <figure>
+            <img src="Part III-ks5000.png" style="width: 100%" />
+            <figcaption>ks = 5000</figcaption>
+          </figure>
+          <figure>
+            <img src="Part III-ks50000.png" style="width: 100%" />
+            <figcaption>ks = 50000</figcaption>
+          </figure>
+        </div>
+      </div>
+      <p>
+        We can see that varying the spring constant in the cloth simulation will
+        directly impact its stiffness and how tightly it conforms to the
+        underlying surface. Lower values will yield a softer, more fluid-like
+        behavior, while higher values will produce a stiffer, more rigid
+        appearance.
+      </p>
+      <h3>Cloth resting on plane</h3>
+      <div style="display: flex; justify-content: center; margin-top: 15px">
+        <div style="flex-direction: column">
+          <figure>
+            <img src="Part III-plane.png" style="width: 100%" />
+            <!-- <figcaption>CBbunny.dae l = 1, s = 1</figcaption> -->
+          </figure>
+        </div>
+      </div>
+    </section>
+
+    <section id="Part4">
+      <h2>Part 4: Handling self-collisions</h2>
+
+      <h3>Screenshots cloth falling</h3>
+      <div style="display: flex; justify-content: center; margin-top: 15px">
+        <div style="flex-direction: column">
+          <img src="Part IV-falling-1.png" style="width: 100%" />
+          <img src="Part IV-falling-2.png" style="width: 100%" />
+        </div>
+        <div style="flex-direction: column">
+          <img src="Part IV-falling-3.png" style="width: 100%" />
+          <img src="Part IV-falling-4.png" style="width: 100%" />
+        </div>
+      </div>
+      <p>dense = 15, ks = 5000</p>
+
+      <h3>Comparison between different ks and density</h3>
+      <div style="display: flex; justify-content: center; margin-top: 15px">
+        <div style="flex-direction: column">
+          <img src="Part IV-falling-density40-1.png" style="width: 100%" />
+          <img src="Part IV-falling-density40-2.png" style="width: 100%" />
+        </div>
+        <div style="flex-direction: column">
+          <img src="Part IV-falling-density40-3.png" style="width: 100%" />
+          <img src="Part IV-falling-density40-4.png" style="width: 100%" />
+        </div>
+      </div>
+      <p>dense = 40, ks = 5000</p>
+      <div style="display: flex; justify-content: center; margin-top: 15px">
+        <div style="flex-direction: column">
+          <img src="Part IV-falling-density5-1.png" style="width: 100%" />
+          <img src="Part IV-falling-density5-2.png" style="width: 100%" />
+        </div>
+        <div style="flex-direction: column">
+          <img src="Part IV-falling-density5-3.png" style="width: 100%" />
+          <img src="Part IV-falling-density5-4.png" style="width: 100%" />
+        </div>
+      </div>
+      <p>dense = 5, ks = 5000</p>
+      <p>
+        As the density grows, the gravity of the cloth gets larger and thus if
+        falls and go to a rest state faster. When reaching a final state, the
+        cloth with higher density will be piled together into several layers,
+        while the cloth with lower density will have less layers on the ground
+        and eventually become flat.
+      </p>
+
+      <div style="display: flex; justify-content: center; margin-top: 15px">
+        <div style="flex-direction: column">
+          <img src="Part IV-falling-ks50000-1.png" style="width: 100%" />
+          <img src="Part IV-falling-ks50000-2.png" style="width: 100%" />
+        </div>
+        <div style="flex-direction: column">
+          <img src="Part IV-falling-ks50000-3.png" style="width: 100%" />
+          <img src="Part IV-falling-ks50000-4.png" style="width: 100%" />
+        </div>
+      </div>
+      <p>dense = 5, ks = 500</p>
+      <div style="display: flex; justify-content: center; margin-top: 15px">
+        <div style="flex-direction: column">
+          <img src="Part IV-falling-ks500-1.png" style="width: 100%" />
+          <img src="Part IV-falling-ks500-2.png" style="width: 100%" />
+        </div>
+        <div style="flex-direction: column">
+          <img src="Part IV-falling-ks500-3.png" style="width: 100%" />
+          <img src="Part IV-falling-ks500-4.png" style="width: 100%" />
+        </div>
+      </div>
+      <p>dense = 5, ks = 500</p>
+      <p>
+        With a high ks, the cloth behaves stiffly and resists deformation. As
+        the cloth falls onto the plane, it maintains its shape relatively well.
+        The impact with the plane is absorbed quickly, causing the cloth to
+        bounce off with little deformation. While with lower ks, the cloth
+        behaves more flexibly and deforms easily. As it falls onto the plane,
+        the cloth stretches and wrinkles significantly due to the impact force.
+        It may even fold or bunch up upon contact with the surface. The low
+        stiffness allows the cloth to absorb more energy from the impact,
+        resulting in a slower settling process. When reaches a final state, the
+        cloth has more wrinkles and folds.
+      </p>
+    </section>
+
+    <section id="Part5">
+      <h2>Task 5: Adaptive Sampling</h2>
+      <h3>Explanation of the Adaptive Sampling</h3>
+
+      <p>
+        Adaptive sampling dynamically adjusts the number of samples taken during
+        rendering based on the variance in pixel color. In the provided code,
+        after processing a batch of samples, the algorithm computes the mean and
+        variance of radiance values and calculates a confidence interval width.
+        If the interval width is below a specified tolerance relative to the
+        mean, the sampling loop breaks early, optimizing computational resources
+        by allocating more samples to pixels with higher uncertainty and fewer
+        samples to those with lower uncertainty.
+      </p>
+      <h3>Implementation of the Adaptive Sampling</h3>
+      <p>
+        Additional to our implementation from part1, we added the variables
+        <span style="background-color: rgb(220, 220, 217)">s1</span> (sum of
+        xk)and
+        <span style="background-color: rgb(220, 220, 217)">variance</span> (sum
+        of xk{2}) Reuse the for loop that we had before, in each loop, we set xk
+        as the return value from
+        <span style="background-color: rgb(220, 220, 217)"
+          >est_radiance_global_illumination.illum()</span
+        >, update s1 and s2. We also added a if statement checking if the number
+        of samples that we have sampled is a multiple of
+        <span style="background-color: rgb(220, 220, 217)">samplesPerBatch</span
+        >, we check if 1.96 &middot; &radic;<span
+          style="text-decoration: overline"
+          >n</span
+        >
+        / &sigma; &lt; maxTolerance &middot; mean. If false, the sample has not
+        converged and we will keep looping; if yes, the sample has converged and
+        we will break the loop. Finally, we update
+        <span style="background-color: rgb(220, 220, 217)"
+          >sampleCountBuffer</span
+        >
+        at the corresponding index to be num_samples.
+      </p>
+
+      <h3>Result</h3>
+      <div style="display: flex; justify-content: center; margin-top: 15px">
+        <div style="flex-direction: row">
+          <img src="task5_blob_rate.png" style="width: 100%" />
+          <img src="task5_blob.png" style="width: 100%" />
+        </div>
+        <p>blob.dae -s 2048 -l 1 -m 5</p>
+        <div style="flex-direction: row">
+          <img src="task5_dragon_rate.png" style="width: 100%" />
+          <img src="task5_dragon.png" style="width: 100%" />
+        </div>
+        <p>CBdragon.dae -s 2048 -l 1 -m 5</p>
+      </div>
+    </section>
+  </body>
 </html>
