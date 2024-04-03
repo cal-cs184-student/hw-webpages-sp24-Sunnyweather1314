@@ -122,25 +122,19 @@
     <section id="overview">
       <h2>Homework Description</h2>
       <p>
-        In this project, we developed a pathtracer with advanced features. In
-        Part 1, we focused on ray generation and scene intersection using
-        techniques like perspective projection and the Moller Trumbore algorithm
-        for triangle intersection. Part 2 introduced a Bounding Volume Hierarchy
-        (BVH) to accelerate ray tracing, reducing rendering times for complex
-        scenes. We covered steps such as computing bounding boxes, choosing
-        splitting axes, and recursively constructing the BVH. In Part 3, we
-        enhanced the pathtracer with direct illumination, comparing uniform
-        hemisphere sampling with importance sampling. The latter provided
-        smoother results in light-surface interactions. Part 4 explored global
-        illumination, addressing indirect lighting, maximum ray depth, Russian
-        Roulette rendering, and sample-per-pixel rates. Screenshots illustrated
-        the impact of settings on visual richness. Part 5 delved into adaptive
-        sampling, dynamically adjusting samples based on pixel color variance.
-        Confidence intervals and early termination for low-variance pixels
-        ensured computational efficiency without compromising quality. Our
-        project showcased a comprehensive pathtracer with optimizations,
-        demonstrating our grasp of computer graphics principles and effective
-        application in a complex rendering environment.
+        Clothsim explores various aspects of cloth simulation, divided into
+        several parts. Part 1 introduces masses and springs, showcasing
+        wireframe images with different constraints. Part 2 delves into
+        numerical integration simulations, demonstrating the impact of
+        parameters like spring constant, damping, and density on cloth behavior.
+        Part 3 focuses on collision handling with other objects, illustrating
+        the effect of varying spring constants. Part 4 addresses
+        self-collisions, displaying cloth falling scenarios with different
+        densities and spring constants. Part 5 explores shader programs,
+        including the Blinn-Phong shading model, texture mapping, bump mapping,
+        and mirror shader effects, showcasing their visual outcomes and
+        computational complexities. Overall, the implementation proecss went
+        quite smooth for our team.
       </p>
     </section>
 
@@ -521,6 +515,16 @@
           </figure>
         </div>
       </div>
+      <p>
+        Bump mapping outperforms displacement mapping at this low sampling rate.
+        The blockiness of the sphere in the 16x16 displacement mapping image
+        illustrates this issue. This blockiness occurs because the fragment
+        shader interpolates height perturbations over the sphere from too few
+        samples, leading to inadequate representation of high frequency details
+        present in the texture. Conversely, with 128x128 samples, displacement
+        mapping matches the texture's high frequency content better, accurately
+        portraying both texture shading and physical deformations on the sphere.
+      </p>
       <h3>Mirror Shader</h3>
       <div style="display: flex; justify-content: center; margin-top: 15px">
         <div style="flex-direction: column">
