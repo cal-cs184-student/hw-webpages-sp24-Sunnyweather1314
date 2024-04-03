@@ -416,57 +416,123 @@
     </section>
 
     <section id="Part5">
-      <h2>Task 5: Adaptive Sampling</h2>
-      <h3>Explanation of the Adaptive Sampling</h3>
+      <h2>Part 5: Cloth Sim</h2>
+      <h3>Shader Program Definition and Usage Explaation</h3>
 
       <p>
-        Adaptive sampling dynamically adjusts the number of samples taken during
-        rendering based on the variance in pixel color. In the provided code,
-        after processing a batch of samples, the algorithm computes the mean and
-        variance of radiance values and calculates a confidence interval width.
-        If the interval width is below a specified tolerance relative to the
-        mean, the sampling loop breaks early, optimizing computational resources
-        by allocating more samples to pixels with higher uncertainty and fewer
-        samples to those with lower uncertainty.
+        A shader program is a set of instructions written in a shading language
+        that runs on the GPU to compute rendering effects. Shaders are used to
+        manipulate the appearance of 3D objects in computer graphics
+        applications. They are typically categorized into two main types: vertex
+        shaders and fragment shaders.
       </p>
-      <h3>Implementation of the Adaptive Sampling</h3>
       <p>
-        Additional to our implementation from part1, we added the variables
-        <span style="background-color: rgb(220, 220, 217)">s1</span> (sum of
-        xk)and
-        <span style="background-color: rgb(220, 220, 217)">variance</span> (sum
-        of xk{2}) Reuse the for loop that we had before, in each loop, we set xk
-        as the return value from
-        <span style="background-color: rgb(220, 220, 217)"
-          >est_radiance_global_illumination.illum()</span
-        >, update s1 and s2. We also added a if statement checking if the number
-        of samples that we have sampled is a multiple of
-        <span style="background-color: rgb(220, 220, 217)">samplesPerBatch</span
-        >, we check if 1.96 &middot; &radic;<span
-          style="text-decoration: overline"
-          >n</span
-        >
-        / &sigma; &lt; maxTolerance &middot; mean. If false, the sample has not
-        converged and we will keep looping; if yes, the sample has converged and
-        we will break the loop. Finally, we update
-        <span style="background-color: rgb(220, 220, 217)"
-          >sampleCountBuffer</span
-        >
-        at the corresponding index to be num_samples.
+        Vertex shaders primarily handle vertex-level operations, transforming 3D
+        vertex positions from object space to screen space, and computing
+        lighting and material properties at each vertex. They also pass data to
+        fragment shaders which determine the color of each pixel on the screen
+        by interpolating values computed by vertex shaders across triangles, and
+        applying lighting equations, texture mapping, and material properties to
+        produce the final rendered image.
       </p>
 
-      <h3>Result</h3>
+      <h3>Blinn-Phong shading model</h3>
+      <p>
+        The Blinn-Phong shading model calculates the color of each pixel based
+        on its interaction with light sources. It considers ambient, diffuse,
+        and specular lighting components. The ambient component represents the
+        overall light in the scene. Diffuse lighting depends on the angle
+        between the surface normal and light direction. Specular lighting is
+        based on the reflection of light towards the viewer, with the intensity
+        influenced by the surface roughness. The model simulates realistic
+        material effects.
+      </p>
+
+      <h3>Screenshots for Blinn-Phong</h3>
       <div style="display: flex; justify-content: center; margin-top: 15px">
-        <div style="flex-direction: row">
-          <img src="task5_blob_rate.png" style="width: 100%" />
-          <img src="task5_blob.png" style="width: 100%" />
+        <div style="flex-direction: column">
+          <figure>
+            <img src="Part V-phong-all.png" style="width: 100%" />
+            <figcaption>all</figcaption>
+          </figure>
+          <figure>
+            <img src="Part V-phong-ambient.png" style="width: 100%" />
+            <figcaption>only ambient</figcaption>
+          </figure>
+          <figure>
+            <img src="Part V-phong-diffuse.png" style="width: 100%" />
+            <figcaption>only diffuse</figcaption>
+          </figure>
+          <figure>
+            <img src="Part V-phong-specular.png" style="width: 100%" />
+            <figcaption>only specular</figcaption>
+          </figure>
         </div>
-        <p>blob.dae -s 2048 -l 1 -m 5</p>
-        <div style="flex-direction: row">
-          <img src="task5_dragon_rate.png" style="width: 100%" />
-          <img src="task5_dragon.png" style="width: 100%" />
+      </div>
+      <h3>Texture Mapping Shader Custom Sample</h3>
+      <div style="display: flex; justify-content: center; margin-top: 15px">
+        <img src="Part V-texture_mapping.png" style="width: 100%" />
+      </div>
+      <h3>Bump Mapping Shader with texture_3</h3>
+      <div style="display: flex; justify-content: center; margin-top: 15px">
+        <div style="flex-direction: column">
+          <figure>
+            <img src="Part V-bump_ball.png" style="width: 100%" />
+            <figcaption>bump sphere</figcaption>
+          </figure>
+          <figure>
+            <img src="Part V-bump_cloth.png" style="width: 100%" />
+            <figcaption>bump cloth</figcaption>
+          </figure>
+          <figure>
+            <img src="Part V-displacement_ball.png" style="width: 100%" />
+            <figcaption>displacement sphere</figcaption>
+          </figure>
+          <figure>
+            <img src="Part V-displacement_cloth.png" style="width: 100%" />
+            <figcaption>displacement cloth</figcaption>
+          </figure>
         </div>
-        <p>CBdragon.dae -s 2048 -l 1 -m 5</p>
+      </div>
+      <p>
+        Bump mapping would produce a cloth and sphere with the illusion of bumps
+        and wrinkles, while displacement mapping would physically deform the
+        geometry of the sphere to represent the bumps and wrinkles. Displacement
+        mapping yields more realistic results at the cost of increased
+        computational complexity.
+      </p>
+      <div style="display: flex; justify-content: center; margin-top: 15px">
+        <div style="flex-direction: column">
+          <figure>
+            <img src="Part V-bump_sphere_16.png" style="width: 100%" />
+            <figcaption>bump_sphere_16</figcaption>
+          </figure>
+          <figure>
+            <img src="Part V-bump_sphere_128.png" style="width: 100%" />
+            <figcaption>bump_sphere_128</figcaption>
+          </figure>
+          <figure>
+            <img src="Part V-displacement_sphere_16.png" style="width: 100%" />
+            <figcaption>displacement_sphere_16</figcaption>
+          </figure>
+          <figure>
+            <img src="Part V-displacement_sphere_128.png" style="width: 100%" />
+            <figcaption>displacement_sphere_128</figcaption>
+          </figure>
+        </div>
+      </div>
+      <h3>Mirror Shader</h3>
+      <div style="display: flex; justify-content: center; margin-top: 15px">
+        <div style="flex-direction: column">
+          <figure>
+            <img src="Part V-mirror_sphere.png" style="width: 100%" />
+            <figcaption>mirror_sphere</figcaption>
+          </figure>
+          <figure>
+            <img src="Part V-mirror_cloth.png" style="width: 100%" />
+            <figcaption>mirror_cloth</figcaption>
+          </figure>
+        </div>
       </div>
     </section>
   </body>
